@@ -107,6 +107,7 @@ resource "aws_route_table_association" "Prod-pub-RT-assoc-to-prod-priv-sub2" {
 resource "aws_internet_gateway" "Prod-IGW" {
   vpc_id = aws_vpc.Grace-vpc.id
 
+
   tags = {
     Name = "Prod-IGW"
   }
@@ -115,12 +116,14 @@ resource "aws_internet_gateway" "Prod-IGW" {
 
 # Associate the internet gateway with the public route table
 
-resource "aws_route_table_association" "Prod-IGW-assoc-Prod-Pub-RT" {
+resource "aws_route" "Prod-IGW-assoc-Prod-Pub-RT" {
   gateway_id     = aws_internet_gateway.Prod-IGW.id
   route_table_id = aws_route_table.Prod-Pub-RT.id
+  destination_cidr_block = "0.0.0.0/0"
+
 }
 
-# Create Elastic IP Address
+# Create  Elastic IP Address
 resource "aws_eip" "Prod-elastic-ip" {
   tags = {
     Name = "Prod-elastic-ip"
